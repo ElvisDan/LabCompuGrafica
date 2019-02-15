@@ -22,7 +22,7 @@ const GLchar* fragmentShaderSource = "#version 330 core\n"
 "out vec4 color;\n"
 "void main()\n"
 "{\n"
-"color = vec4(0.3f, 0.6f, 0.9f, 1.0f);\n"
+"color = vec4(1f, 0f, 1f, 1.0f);\n"//Se da el efecto de color
 "}\n\0";
 
 GLuint VBO, VAO;
@@ -136,8 +136,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 			<< std::endl;
 	}
 
-	// Vertex data
-	GLfloat vertices[] = { -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f };
+	// Vertex data		    //Primer vertice   //Segundo vertice  //Tercer vertice
+	GLfloat vertices[] = { -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f, -0.5, -0.5, 0.0  };
 
 	// Create Buffers and attributes vertex.
 	glGenVertexArrays(1, &VAO);
@@ -237,7 +237,7 @@ void applicationLoop() {
 		// Draw our first triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
