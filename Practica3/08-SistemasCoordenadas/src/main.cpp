@@ -95,6 +95,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 		exit(-1);
 	}
 
+	//Define la zona de dibujo que deseamos utilizar
+	//Parametros: inicial x, inicial y, ancho y alto de la zona de dibujo
 	glViewport(0, 0, screenWidth, screenHeight);
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
@@ -251,8 +253,22 @@ void applicationLoop() {
 		GLint projLoc = shader.getUniformLocation("projection");
 
 		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -7.0f));
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), 
-			(float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+		//glm::mat4 projection = glm::perspective(glm::radians(45.0f), 
+			//(float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+		//glm::mat4 crea una matriz de 4x4
+		//glm::ortho crea una matriz de proyteccion ortogonal
+		// parametros:: plano isquierdo, palno derecho, plano abajo, plano arriba
+		//				plano cercano y plaano lejano
+		//glm::mat4 projection = glm::ortho(-2.0, 2.0, -2.0, 2.0, 0.01, 100.0);
+		//glm::frustum crea una matriz de proyeccion en perspectiva
+		// parametros:: plano isquierdo, palno derecho, plano abajo, plano arriba
+		//				plano cercano y plaano lejano
+		//glm::mat4 projection = glm::frustum(-0.005, 0.005, -0.005, 0.005, 0.01, 100.0);
+		//glm::perspective crea una proyeccion en perspectiva que cambia respecto
+		//a las dimensiones de la ventana
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
+			(float)(screenWidth/screenHeight),
+			0.01f, 100.0f);
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
