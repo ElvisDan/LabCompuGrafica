@@ -250,7 +250,7 @@ void applicationLoop() {
 		glUniformMatrix4fv(locView, 1, GL_FALSE, glm::value_ptr(view));
 
 		//Primer cubo
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0f, 3.0f, -4.0f));
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0f, 4.0f, -4.0f));
 		GLuint locModel = shader.getUniformLocation("model");
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -258,35 +258,190 @@ void applicationLoop() {
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
 
 		//Segundo cubo
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-3.0, 3.0, -4.0f));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-3.0, 4.0, -4.0f));
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
 
 		//Tercer cubo
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, 3.0, -4.0f));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, 4.0, -4.0f));
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
 
 		//Cuarto cubo
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, 2.0, -4.0f));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, 3.0, -4.0f));
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
 
 		//Quinto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, 2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Sexto cubo 
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, 1.0, -4.0f));
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
 
 
-		//Sexto cubo
+		//Septimo cubo
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-3.0, 1.0, -4.0f));
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
 
-		//Septimo cubo
+		//Octavo cubo
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0, 1.0, -4.0f));
 		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Cubos de la letra G
+		//Primer cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0, 4.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Segundo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0, 4.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Tercer cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 4.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Cuarto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 4.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Quinto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Sexto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Septimo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Octavo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0, 1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Noveno cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0, 1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Decimo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0, 2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Cubo once
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0, 2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Letra I
+		//Primer cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 4.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Seundo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Tercero cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Septimo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Letra H
+		//Segundo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0, -1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Segundo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, -1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Tercer cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, -2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Cuarto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-4.0, -3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Quinto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0, -2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Sexto cubo 
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0, -3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Septimo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(-3.0, -2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Letra C
+		//Primer cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0, -1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Tercer cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0, -1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Cuarto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, -1.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Quinto cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, -2.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Sexto cubo 
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, -3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Septimo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0, -3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
+		//Octavo cubo
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0, -3.0, -4.0f));
+		glUniformMatrix4fv(locModel, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
+
 
 		glBindVertexArray(0);
 		shader.turnOff();

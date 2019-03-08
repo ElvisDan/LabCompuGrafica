@@ -27,15 +27,15 @@ struct Vertex {
 
 // This is for the render with index element
 Vertex vertices[] =
-{
-	{ glm::vec3(-0.5f, -0.5f, 0.5f) , glm::vec3(1.0f, 0.0f, 0.0f) },
-	{ glm::vec3(0.5f , -0.5f, 0.5f) , glm::vec3(0.0f, 1.0f, 0.0f) },
-	{ glm::vec3(0.5f ,  0.5f, 0.5f) , glm::vec3(0.0f, 0.0f, 1.0f) },
-	{ glm::vec3(-0.5f,  0.5f, 0.5f) , glm::vec3(1.0f, 0.0f, 1.0f) },
-	{ glm::vec3(0.5f , -0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 0.0f) },
-	{ glm::vec3(0.5f ,  0.5f, -0.5f), glm::vec3(1.0f, 0.0f, 1.0f) },
-	{ glm::vec3(-0.5f , 0.5f, -0.5f) ,glm::vec3(0.0f, 0.0f, 1.0f) },
-	{ glm::vec3(-0.5f , -0.5f, -0.5f),glm::vec3(0.0f, 1.0f, 0.0f) },
+{			//Posicion							//Color
+	{ glm::vec3(-0.5f, -0.5f, 0.5f) , glm::vec3(1.0f, 0.5f, 0.2f) },
+	{ glm::vec3(0.5f , -0.5f, 0.5f) , glm::vec3(0.3f, 1.0f, 0.6f) },
+	{ glm::vec3(0.5f ,  0.5f, 0.5f) , glm::vec3(0.9f, 0.0f, 0.0f) },
+	{ glm::vec3(-0.5f,  0.5f, 0.5f) , glm::vec3(1.0f, 0.6f, 0.3f) },
+	{ glm::vec3(0.5f , -0.5f, -0.5f), glm::vec3(0.2f, 0.0f, 0.8f) },
+	{ glm::vec3(0.5f ,  0.5f, -0.5f), glm::vec3(0.0f, 0.9f, 1.0f) },
+	{ glm::vec3(-0.5f , 0.5f, -0.5f) ,glm::vec3(0.9f, 0.85f, 1.0f) },
+	{ glm::vec3(-0.5f , -0.5f, -0.5f),glm::vec3(0.5f, 1.0f, 0.5f) },
 };
 
 GLuint indices[] = {  // Note that we start from 0!
@@ -268,7 +268,7 @@ void applicationLoop() {
 			model = glm::scale(model, glm::vec3(scale, scale, scale));
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (GLuint *)0);
-			scale += 0.2;
+			scale += 0.05;
 		}
 
 		glBindVertexArray(VAO);
