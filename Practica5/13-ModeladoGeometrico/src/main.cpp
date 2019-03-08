@@ -187,14 +187,49 @@ void applicationLoop() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
+		//Matriz de proyecccion
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
 			(float)screenWidth / screenWidth, 0.01f, 100.0f);
-		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -8.0f));
+		//Matriz de vista
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -8.0f));//cambiar esto para la practica
 
+		//Matriz con diagonal unitaria
+		//Matriz del cilindro del torso
 		glm::mat4 matrix0 = glm::mat4(1.0f);
+		//Se coloca el torso en la coordenada(0,0,-1.0)
 		matrix0 = glm::translate(matrix0, glm::vec3(0.0f, 0.0f, -1.0f));
+		//Matriz de la esfera 1, se coloca -0.5 unidades en el eje y dabajo del torso
 		glm::mat4 matrixs1 = glm::translate(matrix0, glm::vec3(0.0f, -0.5f, 0.0f));
-		matrix0 = glm::scale(matrix0, glm::vec3(0.6f, 1.0f, 0.6f));
+		//Se escala el cilindro del torso
+
+		glm::mat4 matrixs5 = glm::translate(matrix0, glm::vec3(0.0f, 0.5f, 0.0f));
+		glm::mat4 matrixs6 = glm::translate(matrixs5, glm::vec3(0.3f, 0.0f, 0.0f));
+		
+		matrixs5 = glm::scale(matrixs5, glm::vec3(0.1, 0.1, 0.1));
+
+
+		glm::mat4 matrix7 = glm::rotate(matrixs6, -0.2f, glm::vec3(0.0f, 0.0f, 1.0f));
+		matrix7 = glm::translate(matrix7, glm::vec3(0.25f, 0.0f, 0.0f));
+		matrix7 = glm::scale(matrix7, glm::vec3(0.5, 0.15, 0.15));
+		cylinder.setProjectionMatrix(projection);
+		cylinder.setViewMatrix(view);
+		cylinder.enableWireMode();
+		cylinder.render(matrix7);
+
+		matrixs6 = glm::scale(matrixs6, glm::vec3(0.1f, 0.1f, 0.1f));
+		sphere.setProjectionMatrix(projection);
+		sphere.setViewMatrix(view);
+		sphere.enableWireMode();
+		sphere.render(matrixs6);
+
+
+		sphere.setProjectionMatrix(projection);
+		sphere.setViewMatrix(view);
+		sphere.enableWireMode();
+		sphere.render(matrixs5);
+
+		matrix0 = glm::scale(matrix0, glm::vec3(0.6f, 1.0f, 0.6f));//Escaliemnto del cilindro
+		//Se dibuja el cilindro
 		cylinder.setProjectionMatrix(projection);
 		cylinder.setViewMatrix(view);
 		cylinder.enableWireMode();
@@ -212,6 +247,15 @@ void applicationLoop() {
 		matrix1 = glm::translate(matrix1, glm::vec3(0.0, -0.4, 0.0));
 
 		glm::mat4 matrixs4 = glm::translate(matrix1, glm::vec3(0.0f, -0.4f, 0.0f));
+
+		glm::mat4 matrix2 = glm::rotate(matrixs4, 0.3f, glm::vec3(0.0, 0.0, 1.0));
+		matrix2 = glm::translate(matrixs4, glm::vec3(0.0f, -0.3, 0.0));
+		matrix2 = glm::scale(matrix2, glm::vec3(0.1,0.6,0.1));
+		cylinder.setProjectionMatrix(projection);
+		cylinder.setViewMatrix(view);
+		cylinder.enableWireMode();
+		cylinder.render(matrix2);
+
 		matrixs4 = glm::scale(matrixs4, glm::vec3(0.1f, 0.1f, 0.1f));
 		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);

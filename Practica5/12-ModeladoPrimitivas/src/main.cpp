@@ -12,10 +12,15 @@
 #include "Headers/TimeManager.h"
 #include "Headers/Shader.h"
 
-/*
-Sphere sphere(20, 20);
-Cylinder cylinder(20, 20, 0.5, 0.5);
-Box box;*/
+#include "Headers/Shader.h"
+#include "Headers/Cylinder.h"
+#include "Headers/Box.h"
+#include "Headers/Sphere.h"
+
+
+Sphere sphere(5,5);
+Cylinder cylinder(5, 20, 0.2, 0.5);
+Box box;
 
 //GLM include
 #define GLM_FORCE_RADIANS
@@ -100,19 +105,21 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 	shader.initialize("../../Shaders/transformaciones.vs", "../../Shaders/transformaciones.fs");
 	
-	/*
+	//Inicializacion de la esfera
 	sphere.init();
+	//Se setea el shader
 	sphere.setShader(&shader);
-	sphere.setColor(glm::vec3(0.3, 0.3, 1.0));
+	//Se asigna un color
+	sphere.setColor(glm::vec3(1.0, 0.0, 1.0));
 
 	cylinder.init();
 	cylinder.setShader(&shader);
-	cylinder.setColor(glm::vec3(0.8, 0.3, 1.0));
+	cylinder.setColor(glm::vec3(1.0, 0.2, 0.5));
 
 	box.init();
 	box.setShader(&shader);
-	box.setColor(glm::vec3(0.2, 0.8, 0.4));
-	*/
+	box.setColor(glm::vec3(0.9, 0.1, 0.4));
+	
 
 }
 
@@ -124,11 +131,11 @@ void destroyWindow() {
 void destroy() {
 	destroyWindow();
 
-	/*
+	//Selibera la memoria de la instancia de los objetos
 	shader.destroy();
 	sphere.destroy();
 	cylinder.destroy();
-	*/
+	
 }
 
 void reshapeCallback(GLFWwindow* Window, int widthRes, int heightRes) {
@@ -192,26 +199,30 @@ void applicationLoop() {
 			(float)screenWidth / screenWidth, 0.01f, 100.0f);
 		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -8.0f));
 
-		/*sphere.setProjectionMatrix(projection);
+		//Setea la matriz  de proyeccion
+		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);
+		//Setea la matriz de vista
 		sphere.setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
-		sphere.setScale(glm::vec3(1.0, 1.0, 1.0));
-		sphere.enableWireMode();
-		sphere.render();*/
+		//Setea el tamanio del objeto
+		sphere.setScale(glm::vec3(0.1, 0.1, 0.1));
+		//se habilita que no sea solido el objeto
+		//sphere.enableWireMode();
+		sphere.render();
 
-		/*cylinder.setProjectionMatrix(projection);
+		cylinder.setProjectionMatrix(projection);
 		cylinder.setViewMatrix(view);
-		cylinder.setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
+		cylinder.setPosition(glm::vec3(1.0f, 2.0f, 1.0f));
 		cylinder.setScale(glm::vec3(1.0, 1.0, 1.0));
 		cylinder.enableWireMode();
-		cylinder.render();*/
+		cylinder.render();
 
-		/*box.setProjectionMatrix(projection);
+		box.setProjectionMatrix(projection);
 		box.setViewMatrix(view);
-		box.setPosition(glm::vec3(0.0f, 0.0f, 1.0f));
+		box.setPosition(glm::vec3(2.0f, -1.0f, 1.0f));
 		box.setScale(glm::vec3(1.0, 1.0, 1.0));
-		box.enableWireMode();
-		box.render();*/
+		//box.enableWireMode();
+		box.render();
 
 		glfwSwapBuffers(window);
 	}
