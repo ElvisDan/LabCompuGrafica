@@ -47,6 +47,10 @@ void init(int width, int height, std::string strTitle, bool bFullScreen);
 void destroyWindow();
 void destroy();
 bool processInput(bool continueApplication = true);
+//Variables para manejar las teclas y las perpectivas
+int opcion;
+double acercar = 0.01;
+float aumentarGrados = 45.0f;
 
 // Implementacion de todas las funciones.
 void init(int width, int height, std::string strTitle, bool bFullScreen) {
@@ -118,7 +122,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	};
 
 	GLuint indices[] = {  // Note that we start from 0!
-		0, 1, 2, 
+		0, 1, 2,
 		0, 2, 3,
 		1, 4, 5,
 		1, 5, 2,
@@ -191,6 +195,27 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		case GLFW_KEY_ESCAPE:
 			exitApp = true;
 			break;
+		case GLFW_KEY_F:
+			opcion = 0;
+			break;
+		case GLFW_KEY_P:
+			opcion = 1;
+			break;
+		case GLFW_KEY_0:
+			opcion = 2;
+			break;
+		case GLFW_KEY_UP:
+			acercar = acercar + 0.001;
+			break;
+		case GLFW_KEY_DOWN:
+			acercar = acercar - 0.001;
+			break;
+		case GLFW_KEY_RIGHT:
+			aumentarGrados = aumentarGrados + 0.5;
+			break;
+		case GLFW_KEY_LEFT:
+			aumentarGrados = aumentarGrados - 0.5;
+			break;
 		}
 	}
 }
@@ -233,7 +258,7 @@ void applicationLoop() {
 	float fovy = 0;
 
 	glm::vec3 cubePositions[] =
-	{	glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-2.0f, -5.0f, -15.0f),
+	{ glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-2.0f, -5.0f, -15.0f),
 		glm::vec3(-1.5f, 2.2f, -2.5f), glm::vec3(1.8f, 1.0f, -12.3f),
 		glm::vec3(4.4f, -0.4f, -3.5f), glm::vec3(-6.7f, 3.0f, -7.5f),
 		glm::vec3(-4.3f, -3.0f, -2.5f), glm::vec3(3.5f, 8.0f, -2.5f),
@@ -242,7 +267,7 @@ void applicationLoop() {
 
 	while (psi) {
 		psi = processInput(true);
-		
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
@@ -255,20 +280,30 @@ void applicationLoop() {
 		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -7.0f));
 		//glm::mat4 projection = glm::perspective(glm::radians(45.0f), 
 			//(float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
-		//glm::mat4 crea una matriz de 4x4
-		//glm::ortho crea una matriz de proyteccion ortogonal
-		// parametros:: plano isquierdo, palno derecho, plano abajo, plano arriba
-		//				plano cercano y plaano lejano
-		//glm::mat4 projection = glm::ortho(-2.0, 2.0, -2.0, 2.0, 0.01, 100.0);
-		//glm::frustum crea una matriz de proyeccion en perspectiva
-		// parametros:: plano isquierdo, palno derecho, plano abajo, plano arriba
-		//				plano cercano y plaano lejano
-		//glm::mat4 projection = glm::frustum(-0.005, 0.005, -0.005, 0.005, 0.01, 100.0);
-		//glm::perspective crea una proyeccion en perspectiva que cambia respecto
-		//a las dimensiones de la ventana
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-			(float)(screenWidth/screenHeight),
-			0.01f, 100.0f);
+		//glm::mat 4 crea una matriz de 4x4
+		glm::mat4 projection;
+
+		if (opcion == 0)
+			//glm::frustum crea una matriz de proyeccion en perspectiva
+			// parametros:: plano isquierdo, palno derecho, plano abajo, plano arriba
+			//				plano cercano y plaano lejano
+			projection = glm::frustum(-0.005, 0.005, -0.005, 0.005, acercar, 100.0);
+		
+		if (opcion == 2) {
+			//glm::ortho crea una matriz de proyteccion ortogonal
+			// parametros:: plano isquierdo, palno derecho, plano abajo, plano arriba
+			//				plano cercano y plaano lejano
+			glm::mat4 projection = glm::ortho(-2.0, 2.0, -2.0, 2.0, 0.01, 100.0);
+		}
+		if(opcion == 1) {
+				if (aumentarGrados >= 0.0f || aumentarGrados <= 360.0f){
+					//glm::perspective crea una proyeccion en perspectiva que cambia respecto
+					//a las dimensiones de la ventana
+					projection = glm::perspective(glm::radians(aumentarGrados), (float)(screenWidth / screenHeight),
+						0.01f, 100.0f);
+				}
+		}
+
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 

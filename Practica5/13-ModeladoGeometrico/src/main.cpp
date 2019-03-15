@@ -191,7 +191,7 @@ void applicationLoop() {
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f),
 			(float)screenWidth / screenWidth, 0.01f, 100.0f);
 		//Matriz de vista
-		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -8.0f));//cambiar esto para la practica
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -5.0f));//cambiar esto para la practica
 
 		//Matriz con diagonal unitaria
 		//Matriz del cilindro del torso
@@ -200,36 +200,68 @@ void applicationLoop() {
 		matrix0 = glm::translate(matrix0, glm::vec3(0.0f, 0.0f, -1.0f));
 		//Matriz de la esfera 1, se coloca -0.5 unidades en el eje y dabajo del torso
 		glm::mat4 matrixs1 = glm::translate(matrix0, glm::vec3(0.0f, -0.5f, 0.0f));
-		//Se escala el cilindro del torso
+		//Matriz de la esfera superior izquierda
+		
 
+		//Se escala el cilindro del torso
 		glm::mat4 matrixs5 = glm::translate(matrix0, glm::vec3(0.0f, 0.5f, 0.0f));
 		glm::mat4 matrixs6 = glm::translate(matrixs5, glm::vec3(0.3f, 0.0f, 0.0f));
-		
+		glm::mat4 matrixs8 = glm::translate(matrixs5, glm::vec3(-0.3f, 0.0f, 0.0f));
 		matrixs5 = glm::scale(matrixs5, glm::vec3(0.1, 0.1, 0.1));
 
-
+		//Matrices para construir cilindro y esfera 2 del brazo derecho
 		glm::mat4 matrix7 = glm::rotate(matrixs6, -0.2f, glm::vec3(0.0f, 0.0f, 1.0f));
 		matrix7 = glm::translate(matrix7, glm::vec3(0.25f, 0.0f, 0.0f));
+		glm::mat4 matrixs9 = glm::translate(matrix7, glm::vec3(0.25f, 0.0f, 0.0f));
+		glm::mat4 matrix8 = glm::rotate(matrixs9, 0.3f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+
+		//Cilindro 1 brazo derecho
 		matrix7 = glm::scale(matrix7, glm::vec3(0.5, 0.15, 0.15));
 		cylinder.setProjectionMatrix(projection);
 		cylinder.setViewMatrix(view);
 		cylinder.enableWireMode();
 		cylinder.render(matrix7);
 
+		//Cilindro 2 brazo derecho
+		matrix8 = glm::translate(matrixs9, glm::vec3(0.0f, 0.2f, 0.0f));
+		matrix8 = glm::scale(matrix8, glm::vec3(0.15, 0.5, 0.15));
+		cylinder.setProjectionMatrix(projection);
+		cylinder.setViewMatrix(view);
+		cylinder.enableWireMode();
+		cylinder.render(matrix8);
+
+
+		//Esfera superior zquierda
+		matrixs8 = glm::scale(matrixs8, glm::vec3(0.1f, 0.1f, 0.1f));
+		sphere.setProjectionMatrix(projection);
+		sphere.setViewMatrix(view);
+		sphere.enableWireMode();
+		sphere.render(matrixs8);
+
+		//Esfera superior derecha
 		matrixs6 = glm::scale(matrixs6, glm::vec3(0.1f, 0.1f, 0.1f));
 		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);
 		sphere.enableWireMode();
 		sphere.render(matrixs6);
 
+		//Esfera brazo derecho
+		matrixs9 = glm::scale(matrixs9, glm::vec3(0.1f, 0.1f, 0.1f));
+		sphere.setProjectionMatrix(projection);
+		sphere.setViewMatrix(view);
+		sphere.enableWireMode();
+		sphere.render(matrixs9);
 
+		//Esfera superior centro
 		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);
 		sphere.enableWireMode();
 		sphere.render(matrixs5);
 
-		matrix0 = glm::scale(matrix0, glm::vec3(0.6f, 1.0f, 0.6f));//Escaliemnto del cilindro
-		//Se dibuja el cilindro
+		//Escalamiento del cilindro
+		matrix0 = glm::scale(matrix0, glm::vec3(0.6f, 1.0f, 0.6f));
+		//Se dibuja el cilindro que sera el torso
 		cylinder.setProjectionMatrix(projection);
 		cylinder.setViewMatrix(view);
 		cylinder.enableWireMode();
@@ -237,43 +269,48 @@ void applicationLoop() {
 		
 		glm::mat4 matrixs2 = glm::translate(matrixs1, glm::vec3(-0.225f, 0.0f, 0.0f));
 		glm::mat4 matrixs3 = glm::translate(matrixs1, glm::vec3(0.225f, 0.0f, 0.0f));
+		//Esfera que se encuentra en la entrepierna
 		matrixs1 = glm::scale(matrixs1, glm::vec3(0.1f, 0.1f, 0.1f));
 		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);
 		sphere.enableWireMode();
 		sphere.render(matrixs1);
-
+		
 		glm::mat4 matrix1 = glm::rotate(matrixs2, -0.2f, glm::vec3(0.0f, 0.0f, 1.0f));
 		matrix1 = glm::translate(matrix1, glm::vec3(0.0, -0.4, 0.0));
-
 		glm::mat4 matrixs4 = glm::translate(matrix1, glm::vec3(0.0f, -0.4f, 0.0f));
-
 		glm::mat4 matrix2 = glm::rotate(matrixs4, 0.3f, glm::vec3(0.0, 0.0, 1.0));
-		matrix2 = glm::translate(matrixs4, glm::vec3(0.0f, -0.3, 0.0));
-		matrix2 = glm::scale(matrix2, glm::vec3(0.1,0.6,0.1));
-		cylinder.setProjectionMatrix(projection);
-		cylinder.setViewMatrix(view);
-		cylinder.enableWireMode();
-		cylinder.render(matrix2);
-
-		matrixs4 = glm::scale(matrixs4, glm::vec3(0.1f, 0.1f, 0.1f));
-		sphere.setProjectionMatrix(projection);
-		sphere.setViewMatrix(view);
-		sphere.enableWireMode();
-		sphere.render(matrixs4);
-
+		
+		//Cilindro 1 de la pierna izqueierda
 		matrix1 = glm::scale(matrix1, glm::vec3(0.15f, 0.8f, 0.15f));
 		cylinder.setProjectionMatrix(projection);
 		cylinder.setViewMatrix(view);
 		cylinder.enableWireMode();
 		cylinder.render(matrix1);
+
+		//Cilindro 2 de la pierna izquierda
+		matrix2 = glm::translate(matrixs4, glm::vec3(0.0f, -0.3, 0.0));
+		matrix2 = glm::scale(matrix2, glm::vec3(0.1, 0.6, 0.1));
+		cylinder.setProjectionMatrix(projection);
+		cylinder.setViewMatrix(view);
+		cylinder.enableWireMode();
+		cylinder.render(matrix2);
 		
+		//Esfera de la pierna izquierda
+		matrixs4 = glm::scale(matrixs4, glm::vec3(0.1f, 0.1f, 0.1f));
+		sphere.setProjectionMatrix(projection);
+		sphere.setViewMatrix(view);
+		sphere.enableWireMode();
+		sphere.render(matrixs4);
+	
+		//Esfera inferior izquierda
 		matrixs2 = glm::scale(matrixs2, glm::vec3(0.1f, 0.1f, 0.1f));
 		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);
 		sphere.enableWireMode();
 		sphere.render(matrixs2);
 
+		//Esfera inferior derecha
 		matrixs3 = glm::scale(matrixs3, glm::vec3(0.1f, 0.1f, 0.1f));
 		sphere.setProjectionMatrix(projection);
 		sphere.setViewMatrix(view);
