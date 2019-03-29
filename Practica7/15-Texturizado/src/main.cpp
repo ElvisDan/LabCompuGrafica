@@ -23,7 +23,7 @@
 #include "Headers/FirstPersonCamera.h"
 //Texture includes
 //Descomentar
-//#include "Headers/Texture.h"
+#include "Headers/Texture.h"
 
 std::shared_ptr<FirstPersonCamera> camera(new FirstPersonCamera());
 
@@ -35,9 +35,9 @@ Box box;
 
 Shader shader;
 //Descomentar
-//Shader shaderTexture;
+Shader shaderTexture;
 
-GLuint textureID1;
+GLuint textureID1, textureID2;
 
 int screenWidth;
 int screenHeight;
@@ -114,7 +114,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 	shader.initialize("../../Shaders/transformaciones.vs", "../../Shaders/transformaciones.fs");
 	//Descomentar
-	//shaderTexture.initialize("../../Shaders/texturizado.vs", "../../Shaders/texturizado.fs");
+	shaderTexture.initialize("../../Shaders/texturizado.vs", "../../Shaders/texturizado.fs");
 
 	sphere.init();
 	sphere.setShader(&shader);
@@ -122,12 +122,12 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 	sphere2.init();
 	//Cambiar el objetos shader
-	sphere2.setShader(&shader);
+	sphere2.setShader(&shaderTexture);
 	sphere2.setColor(glm::vec3(0.3, 0.3, 1.0));
-	sphere2.scaleUVS(glm::vec2(2.0f, 2.0f));
+	sphere2.scaleUVS(glm::vec2(3.0f, 1.0f));//Numero de veces que se repite la imagen en los ejes (Valor eje x, Valor eje y)
 
 	cylinder.init();
-	cylinder.setShader(&shader);
+	cylinder.setShader(&shaderTexture);
 	cylinder.setColor(glm::vec3(0.8, 0.3, 1.0));
 
 	cylinder2.init();
@@ -135,33 +135,68 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	cylinder2.setColor(glm::vec3(0.2, 0.7, 0.3));
 
 	box.init();
-	box.setShader(&shader);
+	box.setShader(&shaderTexture);
 	box.setColor(glm::vec3(0.2, 0.8, 0.4));
 
 	camera->setPosition(glm::vec3(0.0f, 0.0f, 0.4f));
 
 	// Descomentar
-	/*
 	int imageWidth, imageHeight;
-	Texture texture1("../../Textures/goku.png");
-	FIBITMAP* bitmap = texture1.loadImage();
-	unsigned char * data = texture1.convertToData(bitmap, imageWidth, imageHeight);
-	glGenTextures(1, &textureID1);
-	glBindTexture(GL_TEXTURE_2D, textureID1);
+	Texture texture1("../../Textures/texturaLadrillos.jpg");//Se instancia el objeto textura y se le pasa el archivo
+	FIBITMAP* bitmap = texture1.loadImage(false);//Se carga la imagen que en un arreglo bidimencional
+	unsigned char * data = texture1.convertToData(bitmap, imageWidth, imageHeight);//Se obtiene los bytes de la imagen
+	glGenTextures(1, &textureID1);// Se indica el numero de texturas y el indicador de la textura
+	glBindTexture(GL_TEXTURE_2D, textureID1);//Se enlaza el tipo de textura al ID textureID1 (texture 2D)
 	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	if (data){
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexImage2D(GL_TEXTURE_2D,//Tipo de textura
+			0, //Niveles de MIPMAPS
+			GL_RGBA,//Formato interno que utilizara el buffer
+			imageWidth, //Ancgho de la inagem
+			imageHeight, //Largo de la imagen
+			0, //Border
+			GL_BGRA,//Formato de la libreria 
+			GL_UNSIGNED_BYTE//Tipo de dato
+			, data);//Datos de la imagen (en donde esta almacenada la imagen) 
+		glGenerateMipmap(GL_TEXTURE_2D);//Le indica a OpenGL que se encarge de generar los mipmaps
 	}
 	else
 		std::cout << "Failed to load texture" << std::endl;
 	texture1.freeImage(bitmap);
-	*/
+	
+	//Segunda textura 
+	int imageWidth2, imageHeight2;
+	Texture texture2("../../Textures/goku.png");//Se instancia el objeto textura y se le pasa el archivo de la imagen 
+	FIBITMAP* bitmap2 = texture2.loadImage(false);//Se carga la imagen que en un arreglo bidimencional
+	unsigned char * data2 = texture2.convertToData(bitmap2, imageWidth2, imageHeight2);//Se obtiene los bytes de la imagen
+	glGenTextures(1, &textureID2);// Se indica el numero de texturas y el indicador de la textura
+	glBindTexture(GL_TEXTURE_2D, textureID2);//Se enlaza el tipo de textura al ID textureID1 (texture 2D)
+											 // set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	if (data2) {
+		glTexImage2D(GL_TEXTURE_2D,//Tipo de textura
+			0, //Niveles de MIPMAPS
+			GL_RGBA,//Formato interno que utilizara el buffer
+			imageWidth2, //Ancgho de la inagem
+			imageHeight2, //Largo de la imagen
+			0, //Border
+			GL_BGRA,//Formato de la libreria 
+			GL_UNSIGNED_BYTE//Tipo de dato
+			, data2);//Datos de la imagen (en donde esta almacenada la imagen) 
+		glGenerateMipmap(GL_TEXTURE_2D);//Le indica a OpenGL que se encarge de generar los mipmaps
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	texture2.freeImage(bitmap2);
 
 }
 
@@ -256,14 +291,28 @@ void applicationLoop() {
 		glm::mat4 view = camera->getViewMatrix();
 
 		//Descomentar
-		//glBindTexture(GL_TEXTURE_2D, textureID1);
+		glBindTexture(GL_TEXTURE_2D, textureID1);//Enlazamos la textura que se desea utilizar 
 		sphere2.setProjectionMatrix(projection);
 		sphere2.setViewMatrix(view);
-		sphere2.enableWireMode();
+		//sphere2.enableWireMode();
 		sphere2.setPosition(glm::vec3(0.0, 0.0, -4.0));
 		sphere2.render();
+		glBindTexture(GL_TEXTURE_2D, textureID2);
+		box.setProjectionMatrix(projection);
+		box.setViewMatrix(view);
+		box.setPosition(glm::vec3(2.0f, 0.0f, -3.0f));
+		box.render();
+
+		cylinder.setProjectionMatrix(projection);
+		cylinder.setViewMatrix(view);
+		cylinder.setPosition(glm::vec3(-2.0f, 0.0f, -3.0f));
+		cylinder.render(0, cylinder.getSlices() * cylinder.getStacks() * 2 * 3);//Contorno del cilindro
+		glBindTexture(GL_TEXTURE_2D, textureID1);
+		cylinder.render(cylinder.getSlices() * cylinder.getStacks() * 2 * 3, cylinder.getSlices() * 3);
+		cylinder.render(cylinder.getSlices() * cylinder.getStacks() * 2 * 3 + cylinder.getSlices() * 3, cylinder.getSlices() * 3);
+
 		//Descomentar
-		//glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);//No utilizamos ninguna textura 
 
 		glfwSwapBuffers(window);
 	}
