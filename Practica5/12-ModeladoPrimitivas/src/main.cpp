@@ -221,7 +221,7 @@ void applicationLoop() {
 		box.setViewMatrix(view);
 		box.setPosition(glm::vec3(2.0f, -1.0f, 1.0f));
 		box.setScale(glm::vec3(1.0, 1.0, 1.0));
-		//box.enableWireMode();
+		box.enableWireMode();
 		box.render();
 
 		glfwSwapBuffers(window);
