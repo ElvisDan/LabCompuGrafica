@@ -520,7 +520,7 @@ void applicationLoop() {
 		cylinder.render(cylinder.getSlices() * cylinder.getStacks() * 2 * 3 + cylinder.getSlices() * 3, cylinder.getSlices() * 3);
 
 		//Descomentar
-		glBindTexture(GL_TEXTURE_2D, textureID1);//No utilizamos ninguna textura 
+		glBindTexture(GL_TEXTURE_2D, 0);//No utilizamos ninguna textura 
 
 		glfwSwapBuffers(window);
 	}
