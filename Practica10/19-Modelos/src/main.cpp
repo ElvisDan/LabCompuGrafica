@@ -44,13 +44,15 @@ Shader shaderMateriales;
 Shader shaderDirectionLight;
 Shader shaderPointLight;
 Shader shaderSpotLight;
-Shader shaderLighting;
+Shader shaderLighting;//Shader que contiene multiples luces
 
 Model modelRock;
 Model modelRail;
 Model modelAirCraft;
 Model arturito;
 Model modelTrain;
+Model modelPokemon;
+Model baymax;
 
 GLuint textureID1, textureID2, textureID3, textureCespedID, textureWaterID, textureCubeTexture;
 GLuint cubeTextureID;
@@ -158,12 +160,15 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	sphere.init();
 	cylinder.init();
 	box.init();
-	box.scaleUVS(glm::vec2(100.0, 100.0));
+	box.scaleUVS(glm::vec2(100.0, 100.0));//Se escala las coordenadas de la textura 
 	boxWater.init();
 	boxWater.scaleUVS(glm::vec2(1.0, 1.0));
+	//Se cargan los modelos
 	modelRock.loadModel("../../models/rock/rock.obj");
 	modelRail.loadModel("../../models/railroad/railroad_track.obj");
 	modelAirCraft.loadModel("../../models/Aircraft_obj/E 45 Aircraft_obj.obj");
+	modelPokemon.loadModel("../../models/pokemon/Pokemon.obj");
+	baymax.loadModel("../../models/baymax/Bigmax_White_OBJ.obj");
 
 	camera->setPosition(glm::vec3(0.0f, 0.0f, 0.4f));
 	
@@ -440,9 +445,10 @@ void applicationLoop() {
 		glUniform3fv(shaderLighting.getUniformLocation("directionalLight.direction"), 1, glm::value_ptr(glm::vec3(0, -1.0, 0.0)));
 		//Numero de luces spot y point
 		int locCount = shaderLighting.getUniformLocation("pointLightCount");
-		glUniform1i(shaderLighting.getUniformLocation("pointLightCount"), 1);
-		glUniform1i(shaderLighting.getUniformLocation("spotLightCount"), 1);
+		glUniform1i(shaderLighting.getUniformLocation("pointLightCount"), 1);//Se indica que solo es una luz puntual
+		glUniform1i(shaderLighting.getUniformLocation("spotLightCount"), 1);//Se indica que solo es una luz de tipo spot
 		// Point light
+		//Se envian los valores de las componentes ambientales, difusas y especulares.
 		glUniform3fv(shaderLighting.getUniformLocation("pointLights[0].position"), 1, glm::value_ptr(glm::vec3(lightModelmatrix * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f))));
 		glUniform1f(shaderLighting.getUniformLocation("pointLights[0].constant"), 1.0f);
 		glUniform1f(shaderLighting.getUniformLocation("pointLights[0].linear"), 0.14f);
@@ -463,6 +469,7 @@ void applicationLoop() {
 		glUniform3f(shaderLighting.getUniformLocation("spotLights[0].light.specular"), 0.1, 0.7, 0.8);
 		shaderLighting.turnOff();
 
+		//Se settea el shader con multiples luces
 		modelRock.setShader(&shaderLighting);
 		modelRock.setProjectionMatrix(projection);
 		modelRock.setViewMatrix(view);
@@ -477,10 +484,25 @@ void applicationLoop() {
 		modelRail.setScale(glm::vec3(1.0, 1.0, 1.0));
 		modelRail.render();
 
+		modelPokemon.setShader(&shaderLighting);
+		modelPokemon.setProjectionMatrix(projection);
+		modelPokemon.setViewMatrix(view);
+		modelPokemon.setPosition(glm::vec3(-20.0, 0.0, 20.0));
+		modelPokemon.setScale(glm::vec3(1.0, 1.0, 1.0));
+		modelPokemon.render();
+
+		baymax.setShader(&shaderLighting);
+		baymax.setProjectionMatrix(projection);
+		baymax.setViewMatrix(view);
+		baymax.setPosition(glm::vec3(-30.0, 0.0, 25.0));
+		baymax.setScale(glm::vec3(0.1, 0.1, 0.1));
+		baymax.render();
+
 		modelAirCraft.setShader(&shaderLighting);
 		modelAirCraft.setProjectionMatrix(projection);
 		modelAirCraft.setViewMatrix(view);
 		modelAirCraft.setScale(glm::vec3(1.0, 1.0, 1.0));
+		//Se rota el modelo, se coloca en la posicion deseada y se hace el movimineto en el eje z
 		glm::mat4 matrixAirCraft = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, aircraftZ));
 		matrixAirCraft = glm::translate(matrixAirCraft, glm::vec3(10.0, 2.0, 15.0));
 		matrixAirCraft = glm::rotate(matrixAirCraft, rotationAirCraft, glm::vec3(0, 1, 0));
@@ -511,7 +533,7 @@ void applicationLoop() {
 		boxWater.setViewMatrix(view);
 		boxWater.setPosition(glm::vec3(3.0, 2.0, -5.0));
 		boxWater.setScale(glm::vec3(10.0, 0.001, 10.0));
-		boxWater.offsetUVS(glm::vec2(0.0001, 0.0001));
+		boxWater.offsetUVS(glm::vec2(0.0001, 0.0001));//Se realiza el offset de la textura
 		boxWater.render();
 
 		if (angle > 2 * M_PI)
