@@ -264,9 +264,9 @@ void applicationLoop() {
 		lightModelmatrix = glm::translate(lightModelmatrix, glm::vec3(0.0f, 0.0f, -ratio));
 
 		iluminacionShader.turnOn();//Se activa el shader
-		glUniform3f(iluminacionShader.getUniformLocation("light.ambient"), 0.3, 0.3, 0.3);//Se manda color a los cubos 
-		glUniform3f(iluminacionShader.getUniformLocation("light.diffuse"), 0.5, 0.2, 0.7);
-		glUniform3f(iluminacionShader.getUniformLocation("light.specular"), 0.8, 0.3, 0.5);
+		glUniform3f(iluminacionShader.getUniformLocation("light.ambient"), 0.3, 0.5, 0.1);//Se manda color a los cubos 
+		glUniform3f(iluminacionShader.getUniformLocation("light.diffuse"), 1.0, 0.8, 0.9);
+		glUniform3f(iluminacionShader.getUniformLocation("light.specular"), 0.5, 0.0, 0.2);
 		glUniform3fv(iluminacionShader.getUniformLocation("light.position"), 1, glm::value_ptr(glm::vec3(lightModelmatrix * glm::vec4(0.0, 0.0, 0.0, 1.0))));
 		glUniform3fv(iluminacionShader.getUniformLocation("viewPos"), 1, glm::value_ptr(camera->getPosition()));
 		iluminacionShader.turnOff();//Se desactiva el shader
