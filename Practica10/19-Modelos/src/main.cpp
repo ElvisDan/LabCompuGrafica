@@ -618,16 +618,16 @@ void applicationLoop() {
 		//Funcion que genera el movimiento del pokemon
 		if (finalRotacion) {
 			if (direccionPokemonZ && direccionPokemonX)
-				pokemonZ -= 0.05;
+				pokemonZ -= 0.01;
 
 			if (!direccionPokemonZ && direccionPokemonX)
-				pokemonX -= 0.05;
+				pokemonX -= 0.01;
 
 			if (direccionPokemonX && !direccionPokemonX)
-				pokemonX += 0.05;
+				pokemonX += 0.01;
 
 			if (!direccionPokemonZ && !direccionPokemonX)
-				pokemonZ += 0.05;
+				pokemonZ += 0.01;
 
 			if (pokemonZ < -8.0) {
 				direccionPokemonZ = false;
@@ -652,7 +652,7 @@ void applicationLoop() {
 			}
 		}
 		else {
-			rotationPokemon += 0.05;
+			rotationPokemon += 0.01;
 			if (direccionPokemonZ && direccionPokemonX) {
 				if (rotationPokemon > glm::radians(360.0f)) {
 					finalRotacion = true;

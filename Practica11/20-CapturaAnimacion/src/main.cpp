@@ -407,29 +407,29 @@ bool processInput(bool continueApplication) {
 		camera->moveRightCamera(true, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			rot1 -= 0.02f;
+			rot1 -= 0.002f;
 		else
-			rot1 += 0.02f;
+			rot1 += 0.002f;
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			rot2 -= 0.02f;
+			rot2 -= 0.002f;
 		else
-			rot2 += 0.02f;
+			rot2 += 0.002f;
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			rot3 -= 0.02f;
+			rot3 -= 0.002f;
 		else
-			rot3 += 0.02f;
+			rot3 += 0.002f;
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			rot4 -= 0.02f;
+			rot4 -= 0.002f;
 		else
-			rot4 += 0.02f;
+			rot4 += 0.002f;
 	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
 		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-			rot5 -= 0.02f;
+			rot5 -= 0.002f;
 		else
-			rot5 += 0.02f;
+			rot5 += 0.002f;
 	if (availableSave && glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
 		saveFrame = true;
 		availableSave = false;
@@ -454,7 +454,7 @@ void applicationLoop() {
 	std::stringstream ss;
 
 	std::ofstream myfile;
-	myfile.open("../../animaciones/animationMano.txt");
+	myfile.open("../../animaciones/animationMano.txt");//Se especifica el nombre del archivo en donde se guardan las animaciones
 
 	while (psi) {
 		psi = processInput(true);

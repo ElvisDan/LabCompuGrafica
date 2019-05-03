@@ -60,7 +60,7 @@ Model modelTrain;
 GLuint textureID1, textureID2, textureID3, textureCespedID, textureWaterID, textureCubeTexture, textureMetalID;
 GLuint cubeTextureID;
 
-std::vector<std::vector<glm::mat4>> getKeyFrames(std::string fileName) {
+std::vector<std::vector<glm::mat4>> getKeyFrames(std::string fileName) { //Vector de vectores en donde se guardan los frames
 	std::vector<std::vector<glm::mat4>> keyFrames;
 	std::string line;
 	std::ifstream infile(fileName);
@@ -88,17 +88,17 @@ std::vector<std::vector<glm::mat4>> getKeyFrames(std::string fileName) {
 				token2 = token1.substr(0, pos2);
 				aaa[i++] = atof(token2.c_str());
 				/*if (j == 0)
-					transform[i].x = atof(token2.c_str());
+				transform[i].x = atof(token2.c_str());
 				if (j == 1)
-					transform[i].y = atof(token2.c_str());
+				transform[i].y = atof(token2.c_str());
 				if (j == 2)
-					transform[i].z = atof(token2.c_str());
+				transform[i].z = atof(token2.c_str());
 				if (j == 3)
-					transform[i].w = atof(token2.c_str());*/
+				transform[i].w = atof(token2.c_str());*/
 				/*j++;
 				if (j > 3) {
-					i++;
-					j = 0;
+				i++;
+				j = 0;
 				}*/
 				token1.erase(0, pos2 + delimiter2.length());
 			}
@@ -121,7 +121,7 @@ GLenum types[6] = {
 	GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 };
 
-std::string fileNames[6] = { 
+std::string fileNames[6] = {
 	"../../Textures/mp_bloodvalley/blood-valley_ft.tga",
 	"../../Textures/mp_bloodvalley/blood-valley_bk.tga",
 	"../../Textures/mp_bloodvalley/blood-valley_up.tga",
@@ -195,7 +195,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	GLenum err = glewInit();
 	if (GLEW_OK != err) {
 		std::cerr << "Failed to initialize glew" << std::endl;
-			exit(-1);
+		exit(-1);
 	}
 
 	glViewport(0, 0, screenWidth, screenHeight);
@@ -235,7 +235,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelAirCraft.loadModel("../../models/Aircraft_obj/E 45 Aircraft_obj.obj");
 
 	camera->setPosition(glm::vec3(0.0f, 0.0f, 0.4f));
-	
+
 	// Textura Ladrillos
 	int imageWidth, imageHeight;
 	Texture texture("../../Textures/texturaLadrillos.jpg");
@@ -249,7 +249,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	if (data){
+	if (data) {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -473,10 +473,13 @@ void applicationLoop() {
 	float rotationAirCraft = 0.0;
 	bool finishRotation = true;
 
+	//Se obtienen los frames del brazo
 	std::vector<std::vector<glm::mat4>> keyFramesBrazo = getKeyFrames("../../animaciones/animationMano.txt");
+	//Numero de pasos para alcanzar  del frame i-1 al frame i
 	int numPasosAnimBrazo = 200;
 	int numPasosAnimBrazoCurr = 0;
 
+	//Indices del arreglo keyframeBrazo el actual y el siguiente
 	int indexKeyFrameBrazoCurr = 0;
 	int indexKeyFrameBrazoNext = 1;
 	float interpolation = 0.0;
@@ -513,13 +516,13 @@ void applicationLoop() {
 		cylinder.render(cylinder.getSlices() * cylinder.getStacks() * 2 * 3 + cylinder.getSlices() * 3, cylinder.getSlices() * 3);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		shaderTexture.turnOff();
-		
+
 		cylinder.setShader(&shaderMateriales);
 		cylinder.setProjectionMatrix(projection);
 		cylinder.setViewMatrix(view);
 		cylinder.setPosition(glm::vec3(0.0, 0.0, 0.0));
 		cylinder.setScale(glm::vec3(1.0, 1.0, 1.0));
-		
+
 		// Iluminación
 		glm::mat4 lightModelmatrix = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
 		lightModelmatrix = glm::translate(lightModelmatrix, glm::vec3(0.0f, 0.0f, -ratio));
@@ -604,13 +607,22 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, textureID3);
 		if (keyFramesBrazo[indexKeyFrameBrazoCurr].size() == 7 && keyFramesBrazo[indexKeyFrameBrazoNext].size() == 7) {
 
+			//Matriz de rotacion actual						//Frame		  /Matriz
 			firstQuat = glm::quat_cast(keyFramesBrazo[indexKeyFrameBrazoCurr][0]);
 			secondQuat = glm::quat_cast(keyFramesBrazo[indexKeyFrameBrazoNext][0]);
+			//slerp hace la interpolacion del quaternion (Matriz de rotacion)
 			finalQuat = glm::slerp(firstQuat, secondQuat, interpolation);
+			//Se convierte el quaternion a una matriz de 4x4
 			interpoltaedMatrix = glm::mat4_cast(finalQuat);
+			//Se obtiene la translacion del frame i-1
 			transformComp1 = keyFramesBrazo[indexKeyFrameBrazoCurr][0] * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+			//Se obtiene la trnaslacion del frame i
 			transformComp2 = keyFramesBrazo[indexKeyFrameBrazoNext][0] * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+			//Se realiza la interpolacion entre el frame i-1 y el frame i
+			//tranformComp1 es el frame i-1
+			//tranformComp1 es el frame i
 			finalTrans = (float)(1.0 - interpolation) * transformComp1 + transformComp2 * interpolation;
+			//Unimos la matriz de interpolacion del quaternion y la iterpolacionde la traslacion
 			interpoltaedMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(finalTrans)) * interpoltaedMatrix;
 
 			// Animacion KeyFrames
@@ -636,7 +648,7 @@ void applicationLoop() {
 			glm::mat4 cylinderMatrixJ1 = glm::rotate(keyFrameJoint, 1.5708f, glm::vec3(1.0, 0.0f, 0.0));
 			cylinderMatrixJ1 = glm::scale(cylinderMatrixJ1, glm::vec3(0.1f, 0.1f, 0.1f));
 			sphereAnimacion.render(cylinderMatrixJ1);
-			
+
 			// Articulacion 3
 			firstQuat = glm::quat_cast(keyFramesBrazo[indexKeyFrameBrazoCurr][2]);
 			secondQuat = glm::quat_cast(keyFramesBrazo[indexKeyFrameBrazoNext][2]);
@@ -715,12 +727,14 @@ void applicationLoop() {
 		interpolation = numPasosAnimBrazoCurr / (float)numPasosAnimBrazo;
 
 		if (interpolation >= 1.0) {
+			interpolation = 0.0;
 			numPasosAnimBrazoCurr = 0;
 			indexKeyFrameBrazoCurr = indexKeyFrameBrazoNext;
 			indexKeyFrameBrazoNext++;
 		}
 
 		if (indexKeyFrameBrazoNext > keyFramesBrazo.size() - 1) {
+			interpolation = 0.0;
 			indexKeyFrameBrazoCurr = 0;
 			indexKeyFrameBrazoNext = 1;
 		}
@@ -742,6 +756,7 @@ void applicationLoop() {
 		box.setViewMatrix(view);
 		box.setPosition(glm::vec3(0.0, 0.0, 0.0));
 		box.setScale(glm::vec3(100.0, 0.001, 100.0));
+		//box.offsetUVS(glm::vec2(0.0001, 0.0001));
 		box.render();
 
 		glActiveTexture(GL_TEXTURE0);
@@ -751,7 +766,7 @@ void applicationLoop() {
 		boxWater.setViewMatrix(view);
 		boxWater.setPosition(glm::vec3(3.0, 2.0, -5.0));
 		boxWater.setScale(glm::vec3(10.0, 0.001, 10.0));
-		boxWater.offsetUVS(glm::vec2(0.0001, 0.0001));
+		boxWater.offsetUVS(glm::vec2(0.0001, 0.0001));//Crea la animacion de la textura 
 		boxWater.render();
 
 		if (angle > 2 * M_PI)
