@@ -163,6 +163,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	box.scaleUVS(glm::vec2(100.0, 100.0));//Se escala las coordenadas de la textura 
 	boxWater.init();
 	boxWater.scaleUVS(glm::vec2(1.0, 1.0));
+
 	//Se cargan los modelos
 	modelRock.loadModel("../../models/rock/rock.obj");
 	modelRail.loadModel("../../models/railroad/railroad_track.obj");
@@ -381,9 +382,16 @@ void applicationLoop() {
 	float ratio = 20.0;
 
 	float aircraftZ = 0.0;
-	bool direcionAirCraft = true;
+	float pokemonZ = 0.0;
+	float pokemonX = 0.0;
 	float rotationAirCraft = 0.0;
+	float rotationPokemon = 0.0;
 	bool finishRotation = true;
+	bool direcionAirCraft = true;
+	bool finalRotacion = true;
+	bool direccionPokemonZ = true;
+	bool direccionPokemonX = true;
+
 
 	while (psi) {
 		psi = processInput(true);
@@ -484,19 +492,25 @@ void applicationLoop() {
 		modelRail.setScale(glm::vec3(1.0, 1.0, 1.0));
 		modelRail.render();
 
-		modelPokemon.setShader(&shaderLighting);
-		modelPokemon.setProjectionMatrix(projection);
-		modelPokemon.setViewMatrix(view);
-		modelPokemon.setPosition(glm::vec3(-20.0, 0.0, 20.0));
-		modelPokemon.setScale(glm::vec3(1.0, 1.0, 1.0));
-		modelPokemon.render();
-
 		baymax.setShader(&shaderLighting);
 		baymax.setProjectionMatrix(projection);
 		baymax.setViewMatrix(view);
 		baymax.setPosition(glm::vec3(-30.0, 0.0, 25.0));
 		baymax.setScale(glm::vec3(0.1, 0.1, 0.1));
 		baymax.render();
+
+		modelPokemon.setShader(&shaderLighting);
+		modelPokemon.setProjectionMatrix(projection);
+		modelPokemon.setViewMatrix(view);
+		modelPokemon.setScale(glm::vec3(1.0, 1.0, 1.0));
+		//Genera el moviemieno del pokemon
+		glm::mat4 matrixPokemon = glm::translate(glm::mat4(1.0f), glm::vec3(pokemonX, 0.0, pokemonZ));
+		matrixPokemon = glm::translate(matrixPokemon, glm::vec3(15.0, 0.0, 20.0));
+		matrixPokemon = glm::rotate(matrixPokemon, rotationPokemon, glm::vec3(0, 1, 0));
+		modelPokemon.render(matrixPokemon);
+
+
+		
 
 		modelAirCraft.setShader(&shaderLighting);
 		modelAirCraft.setProjectionMatrix(projection);
@@ -600,6 +614,74 @@ void applicationLoop() {
 			}
 		}
 
+
+		//Funcion que genera el movimiento del pokemon
+		if (finalRotacion) {
+			if (direccionPokemonZ && direccionPokemonX)
+				pokemonZ -= 0.05;
+
+			if (!direccionPokemonZ && direccionPokemonX)
+				pokemonX -= 0.05;
+
+			if (direccionPokemonX && !direccionPokemonX)
+				pokemonX += 0.05;
+
+			if (!direccionPokemonZ && !direccionPokemonX)
+				pokemonZ += 0.05;
+
+			if (pokemonZ < -8.0) {
+				direccionPokemonZ = false;
+				finalRotacion = false;
+				pokemonZ = -8.0;
+
+			}if (pokemonZ > 8.0) {
+				direccionPokemonZ = true;
+				finalRotacion = false;
+				pokemonZ = 8.0;
+			}
+
+			if (pokemonX < -8.0) {
+				direccionPokemonX = false;
+				finalRotacion = false;
+				pokemonX = -8.0;
+
+			}if (pokemonX > 8.0) {
+				direccionPokemonX = true;
+				finalRotacion = false;
+				pokemonX = 8.0;
+			}
+		}
+		else {
+			rotationPokemon += 0.05;
+			if (direccionPokemonZ && direccionPokemonX) {
+				if (rotationPokemon > glm::radians(360.0f)) {
+					finalRotacion = true;
+					rotationPokemon = glm::radians(0.0f);
+				}
+			}
+
+			if (!direccionPokemonZ && direccionPokemonX) {
+				if (rotationPokemon > glm::radians(90.0f)) {
+					finalRotacion = true;
+					rotationPokemon = glm::radians(90.0f);
+				}
+			}
+
+			if (!direccionPokemonZ && !direccionPokemonX) {
+				if (rotationPokemon > glm::radians(180.0f)) {
+					finalRotacion = true;
+					rotationPokemon = glm::radians(180.0f);
+				}
+			}
+
+			if (direccionPokemonZ && !direccionPokemonX) {
+				if (rotationPokemon > glm::radians(270.0f)) {
+					finalRotacion = true;
+					rotationPokemon = glm::radians(270.0f);
+				}
+			}
+
+		}
 		glfwSwapBuffers(window);
 	}
 }

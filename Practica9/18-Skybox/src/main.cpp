@@ -1640,9 +1640,6 @@ void applicationLoop() {
 		sphere.enableWireMode();
 		sphere.render(lightModelmatrix);
 
-
-
-
 		// Se Dibuja el Skybox
 		GLint oldCullFaceMode;
 		GLint oldDepthFuncMode;
